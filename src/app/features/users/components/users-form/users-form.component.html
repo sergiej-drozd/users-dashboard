@@ -1,0 +1,56 @@
+@let loading = loading$ | async;
+@let error = error$ | async;
+
+<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Username</label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="name" type="text" formControlName="name" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="password" type="password" formControlName="password" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Role</label>
+        <select formControlName="role"
+          class="shadow border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <option value="admin" selected>Admin</option>
+          <option value="user">User</option>
+        </select>
+      </div>
+
+      @if(error) {
+      <div class="text-red-500 text-sm my-2">
+        {{ error }}
+      </div>
+      }
+
+      <div class="flex items-center justify-between">
+        <button
+          class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="button" (click)="onClose()">
+          Cancel
+        </button>
+        <button
+          class="bg-blue-500 flex disabled:cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit" [disabled]="form.invalid || loading">
+          Save @if(loading) {
+          <svg class="animate-spin h-5 w-5 text-white ml-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24" *ngIf="loading">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
